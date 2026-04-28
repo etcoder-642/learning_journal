@@ -1,17 +1,16 @@
-const deepCount = function(val, rnBool = true) {
-    let counter = 0;
-    if(typeof val === 'object' && val !== null){
-        if(rnBool) rnBool = !rnBool;
-        else counter++;
-        const arr = Object.values(val);
-        for(let i = 0; i < arr.length; i++){
-            counter += deepCount(arr[i], rnBool);
+const deepCount = function(val) {
+    let arr = Object.values(val);
+    let count = 0;
+    for(let i = 0; i < arr.length; i++){
+        if(typeof arr[i] == 'object' && arr[i] != null){
+            count++;
+            count += deepCount(arr[i]);
+        }else{
+            count++;
         }
-    }else{
-        counter++;
     }
-    return counter;
-};
+    return count;
+}
 
 // Do not edit below this line
 module.exports = deepCount;

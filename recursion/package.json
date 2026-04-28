@@ -1,0 +1,14 @@
+{
+  "name": "recursion",
+  "version": "1.0.0",
+  "description": "tdd recursion",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "mnasie",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^30.3.0"
+  }
+}

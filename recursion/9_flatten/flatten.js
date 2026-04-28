@@ -1,16 +1,17 @@
 // [1, 2, 3]
 //[1, [2, 3], 4]
 
-const flatten = function(data) {
-    let collection = [];
-    if(Array.isArray(data)){
-        for(let i = 0; i < data.length; i++){
-            collection.push(... flatten(data[i]));
+const flatten = function (val) {
+    let masterArr = [];
+    let arr = Object.values(val);
+    for(let i = 0; i < arr.length; i++){
+        if(typeof arr[i] == 'object' && arr[i] != null){
+            masterArr.push(...flatten(arr[i]));
+        }else{
+            masterArr.push(arr[i]);
         }
-    }else{
-        collection.push(data);
     }
-    return collection;
-};
+    return masterArr;
+}
 
 module.exports = flatten;
