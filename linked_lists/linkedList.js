@@ -91,6 +91,41 @@ export const createLinkedList = () => {
             }
             str += " " + node.value + ") -> ( )";
             return str;
+        },
+        insertAt: function (index, ...values) {
+            let arr = [...values];
+            let count = 1;
+            let node = _initial_node;
+            while (count != _length) {
+                debugger;
+                if(index == 0 && count == 1){
+                    debugger;
+                    let _init_node = new Node(arr[0], _initial_node);
+                    _initial_node = _init_node;
+                    node = _initial_node;
+                    for(let i = 1; i < arr.length; i++){
+                        debugger;
+                        let newNode = new Node(arr[i], node.next);
+                        node.next = newNode;
+                        node = newNode;
+                        debugger;
+                    }
+                }else if(count == index){
+                    for(let i = 0; i < arr.length; i++){
+                        let newNode = new Node(arr[i], node.next);
+                        node.next = newNode;
+                        node = newNode;
+                    }
+                    break;
+                }
+                debugger;
+                node = node.next;
+                count++;
+            }
+            return;
+        },
+        removeAt: function(index) {
+
         }
     }
 }

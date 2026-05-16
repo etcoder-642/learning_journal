@@ -43,3 +43,13 @@ console.log("\n--- Pop Test ---");
 linkedList.pop();
 console.log("After Pop:", linkedList.toString());
 console.log("New Tail:", linkedList.tail()); // Should be Node 1
+linkedList.append("Node 2");
+linkedList.append("Node 3");
+linkedList.append("Node 4");
+linkedList.append("Node 5");
+console.log("BEFORE");
+console.log(linkedList.toString());
+
+console.log("INSERT AT Test");
+linkedList.insertAt(0, 10, 11, 3, 4, 5);
+console.log(linkedList.toString());
