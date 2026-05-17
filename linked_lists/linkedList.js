@@ -6,6 +6,11 @@ export const createLinkedList = () => {
     return {
         append: function (value) {
             const newNode = new Node(value, null);
+            if(_initial_node.value == null) {
+                _initial_node.value = value;
+                _length++;
+                return;
+            }
             if (_initial_node.next === null) {
                 _initial_node.next = newNode;
             } else {
@@ -42,7 +47,7 @@ export const createLinkedList = () => {
         at: function (index) {
             let count = 0;
             let node = _initial_node;
-            while (node.next != null) {
+            while (node != null) {
                 if (count == index) {
                     return node.value;
                 }
@@ -65,7 +70,7 @@ export const createLinkedList = () => {
         },
         contains: function (value) {
             let node = _initial_node;
-            while (node.next != null) {
+            while (node != null) {
                 if (node.value == value) return true;
                 node = node.next;
             }
@@ -74,12 +79,11 @@ export const createLinkedList = () => {
         findIndex: function (value) {
             let count = 0;
             let node = _initial_node;
-            while (node.next != null) {
+            while (node != null) {
                 if (node.value == value) return count;
                 node = node.next;
                 count++;
             }
-            if (node.value == value) return count;
             return -1;
         },
         toString: function () {
@@ -111,8 +115,7 @@ export const createLinkedList = () => {
                 return;
             }
             if (_length < index) {
-                _initial_node.value = "You are trying to access a node that doesn't exit";
-                return;
+                return "Index out of bounds";
             }
 
             while (count != _length+1) {
