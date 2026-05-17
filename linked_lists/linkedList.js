@@ -89,43 +89,72 @@ export const createLinkedList = () => {
                 str += " " + node.value + ") -> (";
                 node = node.next;
             }
-            str += " " + node.value + ") -> ( )";
+            if (node.value != null)
+                str += " " + node.value + ") -> (";
+            str += " )";
             return str;
         },
         insertAt: function (index, ...values) {
             let arr = [...values];
             let count = 1;
             let node = _initial_node;
-            while (count != _length) {
-                debugger;
-                if(index == 0 && count == 1){
-                    debugger;
-                    let _init_node = new Node(arr[0], _initial_node);
-                    _initial_node = _init_node;
-                    node = _initial_node;
-                    for(let i = 1; i < arr.length; i++){
-                        debugger;
-                        let newNode = new Node(arr[i], node.next);
-                        node.next = newNode;
-                        node = newNode;
-                        debugger;
-                    }
-                }else if(count == index){
-                    for(let i = 0; i < arr.length; i++){
-                        let newNode = new Node(arr[i], node.next);
-                        node.next = newNode;
-                        node = newNode;
-                    }
-                    break;
+            if (index == 0 && count == 1) {
+                let _init_node = new Node(arr[0], _initial_node);
+                _initial_node = _init_node;
+                node = _initial_node;
+                for (let i = 1; i < arr.length; i++) {
+                    let newNode = new Node(arr[i], node.next);
+                    node.next = newNode;
+                    node = newNode;
+                    _length++;
                 }
-                debugger;
+                return;
+            }
+            if (_length < index) {
+                _initial_node.value = "You are trying to access a node that doesn't exit";
+                return;
+            }
+
+            while (count != _length+1) {
+                if (count == index) {
+                    for (let i = 0; i < arr.length; i++) {
+                        let newNode = new Node(arr[i], node.next);
+                        node.next = newNode;
+                        node = newNode;
+                        _length++;
+                    }
+                    return;
+                }
                 node = node.next;
                 count++;
             }
-            return;
         },
-        removeAt: function(index) {
+        removeAt: function (index) {
+            if (index == 0) {
+                if(_length == 1) {
+                    _initial_node.value = null;
+                    _initial_node.next = null;
+                    return;
+                }
+                _initial_node = _initial_node.next;
+                _length--;
+                return;
+            }
 
+            let count = 1;
+            let node = _initial_node;
+
+            while (node != null && count != _length) {
+                if (count == index) {
+                    if (node.next != null) {
+                        node.next = node.next ? node.next.next : null;
+                        _length--;
+                        return;
+                    }
+                }
+                node = node.next;
+                count++;
+            }
         }
     }
 }
