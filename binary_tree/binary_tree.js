@@ -114,23 +114,23 @@ export class Tree {
         return;
     }
 
-    #_deleteNode(node = this.#_root, value){
-        if(node == null) return null;
+    #_deleteNode(node = this.#_root, value) {
+        if (node == null) return null;
 
-        if(node.data == value){
-            if(node.right){
+        if (node.data == value) {
+            if (node.right) {
                 let sNode = node.right;
-                while(sNode.left != null){
+                while (sNode.left != null) {
                     sNode = sNode.left;
                 }
                 node.data = sNode.data;
                 node.right = this.#_deleteNode(node.right, sNode.data);
-            }else {
+            } else {
                 node = node.left;
             }
-        }else if(node.data < value){
+        } else if (node.data < value) {
             node.right = this.#_deleteNode(node.right, value);
-        }else if(node.data > value){
+        } else if (node.data > value) {
             node.left = this.#_deleteNode(node.left, value);
         }
         return node;
@@ -151,25 +151,31 @@ export class Tree {
     }
 
     levelOrderForEach(callback = null, node = this.#_root) {
-        try{
-            callback != null
-        }catch {
-            console.log("Callback not provided!");
-            return undefined;
+        if(typeof callback != 'function'){
+            throw new TypeError("Callback not provided or is not a function!");
         }
 
-        while(node != null){
-            node.data = callback(node.data);
-            node = node.left;
+        let queue = [];
+        queue.push(node);
+        while (queue.length > 0) {
+            let current = queue.shift();
+            if (current != null) {
+                current.data = callback(current.data);
+                if (current.left != null)
+                    queue.push(current.left);
+
+                if (current.right != null)
+                    queue.push(current.right);
+            }
         }
 
     }
 
     inOrderForEach(callback = null, node = this.#_root) {
-        if(node == null) return null;
-        try{
+        if (node == null) return null;
+        try {
             callback != null
-        }catch {
+        } catch {
             console.log("Callback not provided!");
             return undefined;
         }
@@ -182,10 +188,10 @@ export class Tree {
     }
 
     preOrderForEach(callback = null, node = this.#_root) {
-        if(node == null) return null;
-        try{
+        if (node == null) return null;
+        try {
             callback != null
-        }catch {
+        } catch {
             console.log("Callback not provided!");
             return undefined;
         }
@@ -198,15 +204,15 @@ export class Tree {
     }
 
     postOrderForEach(callback = null, node = this.#_root) {
-        if(node == null) return null;
-        try{
+        if (node == null) return null;
+        try {
             callback != null
-        }catch {
+        } catch {
             console.log("Callback not provided!");
             return undefined;
         }
 
-        node.right = this.postOrderForEach(callback, node.right);        
+        node.right = this.postOrderForEach(callback, node.right);
         node.left = this.postOrderForEach(callback, node.left);
         node.data = callback(node.data);
 

@@ -46,5 +46,5 @@ function multiplyBy2(num){
     return num * 2;
 }
 
-tree.inOrderForEach(multiplyBy2, tree.root.left);
+tree.levelOrderForEach(multiplyBy2);
 tree.prettyPrint(tree.root);

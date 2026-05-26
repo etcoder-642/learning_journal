@@ -1,5 +1,3 @@
-
-
 export class Node {
     #_data;
     #_left;
