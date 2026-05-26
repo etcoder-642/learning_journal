@@ -7,7 +7,7 @@ export class Tree {
         this.#_root = this.#_buildTree(arr);
     }
 
-    get root(){
+    get root() {
         return this.#_root;
     }
 
@@ -84,7 +84,94 @@ export class Tree {
         return this.#_sortedArrayToBST(_sarr);
     }
 
-    prettyPrint (node, prefix = '', isLeft = true) {
+    #_search(node, value) {
+        if (node == null || node == undefined) return false;
+        if (node.data == value) return true;
+
+        if (value > node.data) {
+            return this.#_search(node.right, value);
+        } else if (value < node.data) {
+            return this.#_search(node.left, value);
+        }
+    }
+
+
+    #_insert(node, value) {
+        let _new_node = new Node(value);
+        if (value > node.data) {
+            if (node.right == null)
+                node.right = _new_node;
+            else
+                this.#_insert(node.right, value);
+        } else if (value < node.data) {
+            if (node.left == null)
+                node.left = _new_node;
+            else
+                this.#_insert(node.left, value);
+        } else {
+            return null;
+        }
+        return;
+    }
+
+    #_deleteNode(node = this.#_root, value){
+        if(node == null) return null;
+
+        if(node.data == value){
+            if(node.right){
+                let sNode = node.right;
+                while(sNode.left != null){
+                    sNode = sNode.left;
+                }
+                node.data = sNode.data;
+                node.right = this.#_deleteNode(node.right, sNode.data);
+            }else {
+                node = node.left;
+            }
+        }else if(node.data < value){
+            node.right = this.#_deleteNode(node.right, value);
+        }else if(node.data > value){
+            node.left = this.#_deleteNode(node.left, value);
+        }
+        return node;
+    }
+
+    includes(value) {
+        return this.#_search(this.#_root, value);
+    }
+
+    insert(value) {
+        this.#_insert(this.#_root, value);
+    }
+
+    deleteItem(value) {
+        if (!this.#_search(this.#_root, value)) return;
+
+        this.#_root = this.#_deleteNode(this.#_root, value);
+    }
+
+    // levelOrderForEach(callback) {
+
+    // }
+
+    inOrderForEach(callback = null, node = this.#_root) {
+        if(node == null) return null;
+        try{
+            callback != null
+        }catch {
+            console.log("Callback not provided!");
+            return undefined;
+        }
+
+        node.right = this.inOrderForEach(callback, node.right);
+        
+        node.data = callback(node.data);
+        node.left = this.inOrderForEach(callback, node.left);
+
+        return node;
+    }
+
+    prettyPrint(node, prefix = '', isLeft = true) {
         if (node === null || node === undefined) {
             return;
         }

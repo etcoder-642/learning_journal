@@ -1,0 +1,23 @@
+{
+  "name": "learning_journal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etcoder-642/learning_journal.git"
+  },
+  "author": "mnasie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/etcoder-642/learning_journal/issues"
+  },
+  "homepage": "https://github.com/etcoder-642/learning_journal#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
+}
