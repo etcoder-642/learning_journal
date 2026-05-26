@@ -150,9 +150,20 @@ export class Tree {
         this.#_root = this.#_deleteNode(this.#_root, value);
     }
 
-    // levelOrderForEach(callback) {
+    levelOrderForEach(callback = null, node = this.#_root) {
+        try{
+            callback != null
+        }catch {
+            console.log("Callback not provided!");
+            return undefined;
+        }
 
-    // }
+        while(node != null){
+            node.data = callback(node.data);
+            node = node.left;
+        }
+
+    }
 
     inOrderForEach(callback = null, node = this.#_root) {
         if(node == null) return null;
@@ -164,12 +175,44 @@ export class Tree {
         }
 
         node.right = this.inOrderForEach(callback, node.right);
-        
         node.data = callback(node.data);
         node.left = this.inOrderForEach(callback, node.left);
 
         return node;
     }
+
+    preOrderForEach(callback = null, node = this.#_root) {
+        if(node == null) return null;
+        try{
+            callback != null
+        }catch {
+            console.log("Callback not provided!");
+            return undefined;
+        }
+
+        node.data = callback(node.data);
+        node.right = this.preOrderForEach(callback, node.right);
+        node.left = this.preOrderForEach(callback, node.left);
+
+        return node;
+    }
+
+    postOrderForEach(callback = null, node = this.#_root) {
+        if(node == null) return null;
+        try{
+            callback != null
+        }catch {
+            console.log("Callback not provided!");
+            return undefined;
+        }
+
+        node.right = this.postOrderForEach(callback, node.right);        
+        node.left = this.postOrderForEach(callback, node.left);
+        node.data = callback(node.data);
+
+        return node;
+    }
+
 
     prettyPrint(node, prefix = '', isLeft = true) {
         if (node === null || node === undefined) {
