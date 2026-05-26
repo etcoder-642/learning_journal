@@ -85,12 +85,12 @@ export class Tree {
     }
 
     #_search(node, value) {
-        if (node == null || node == undefined) return false;
-        if (node.data == value) return true;
+        if (node == null || node == undefined) return undefined;
+        if (node.data == value) return node;
 
         if (value > node.data) {
             return this.#_search(node.right, value);
-        } else if (value < node.data) {
+        } else {
             return this.#_search(node.left, value);
         }
     }
@@ -151,7 +151,7 @@ export class Tree {
     }
 
     levelOrderForEach(callback = null, node = this.#_root) {
-        if(typeof callback != 'function'){
+        if (typeof callback != 'function') {
             throw new TypeError("Callback not provided or is not a function!");
         }
 
@@ -171,15 +171,31 @@ export class Tree {
 
     }
 
-    inOrderForEach(callback = null, node = this.#_root) {
+    levelOrderForEachRecur(callback = null, node = this.#_root, queue = null) {
         if (node == null) return null;
-        try {
-            callback != null
-        } catch {
-            console.log("Callback not provided!");
-            return undefined;
+        if (queue == null) {
+            queue = [node];
+        }
+        if (queue.length == 0) return null;
+        let current = queue.shift();
+        if (current == null) return null;
+
+        current.data = callback(current.data);
+        if (current.left != null)
+            queue.push(current.left);
+
+        if (current.right != null)
+            queue.push(current.right);
+
+        this.levelOrderForEachRecur(callback, node, queue);
+    }
+
+    inOrderForEach(callback = null, node = this.#_root) {
+        if (typeof callback != 'function') {
+            throw new TypeError("Callback not provided or is not a function!");
         }
 
+        if (node == null) return null;
         node.right = this.inOrderForEach(callback, node.right);
         node.data = callback(node.data);
         node.left = this.inOrderForEach(callback, node.left);
@@ -188,13 +204,11 @@ export class Tree {
     }
 
     preOrderForEach(callback = null, node = this.#_root) {
-        if (node == null) return null;
-        try {
-            callback != null
-        } catch {
-            console.log("Callback not provided!");
-            return undefined;
+        if (typeof callback != 'function') {
+            throw new TypeError("Callback not provided or is not a function!");
         }
+
+        if (node == null) return null;
 
         node.data = callback(node.data);
         node.right = this.preOrderForEach(callback, node.right);
@@ -204,14 +218,11 @@ export class Tree {
     }
 
     postOrderForEach(callback = null, node = this.#_root) {
-        if (node == null) return null;
-        try {
-            callback != null
-        } catch {
-            console.log("Callback not provided!");
-            return undefined;
+        if (typeof callback != 'function') {
+            throw new TypeError("Callback not provided or is not a function!");
         }
 
+        if (node == null) return null;
         node.right = this.postOrderForEach(callback, node.right);
         node.left = this.postOrderForEach(callback, node.left);
         node.data = callback(node.data);
@@ -219,6 +230,49 @@ export class Tree {
         return node;
     }
 
+    #_height(node = this.#_root) {
+        if (node == null) return -1;
+
+        let lh = this.#_height(node.left);
+        let rh = this.#_height(node.right);
+        return Math.max(lh, rh) + 1;
+    }
+
+    height(value) {
+        let node = this.#_search(this.#_root, value);
+        if (node){
+            return this.#_height(node);
+        }
+        else
+            return undefined;
+    }
+
+    depth(value, node = undefined) {
+        if (node == undefined) node = this.#_root;
+        console.log("Here I am!");
+
+
+
+        let n = node;
+        let depth = 0;
+
+        while(n != null){
+            if(value == n.data){
+                return depth;
+            }
+
+            if(value > n.data){
+                n = n.right;
+            }else if(value < n.data){
+                n = n.left;
+            }
+
+            if(n != null){
+                depth++;
+            }
+        }
+        return undefined;
+    }
 
     prettyPrint(node, prefix = '', isLeft = true) {
         if (node === null || node === undefined) {

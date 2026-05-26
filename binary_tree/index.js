@@ -46,5 +46,12 @@ function multiplyBy2(num){
     return num * 2;
 }
 
-tree.levelOrderForEach(multiplyBy2);
+tree.levelOrderForEachRecur(multiplyBy2);
 tree.prettyPrint(tree.root);
+
+console.log("Depth: 56");
+console.log(tree.depth(56));
+
+console.log("Height: 56");
+console.log(tree.height(56));
+
