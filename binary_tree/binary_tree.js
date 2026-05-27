@@ -2,8 +2,10 @@ import { Node } from "./node.js";
 
 export class Tree {
     #_root;
+    #_arr = [];
 
     constructor(arr) {
+        this.#_arr = arr;
         this.#_root = this.#_buildTree(arr);
     }
 
@@ -230,6 +232,29 @@ export class Tree {
         return node;
     }
 
+    depth(value, node = undefined) {
+        if (node == undefined) node = this.#_root;
+        let n = node;
+        let depth = 0;
+
+        while (n != null) {
+            if (value == n.data) {
+                return depth;
+            }
+
+            if (value > n.data) {
+                n = n.right;
+            } else if (value < n.data) {
+                n = n.left;
+            }
+
+            if (n != null) {
+                depth++;
+            }
+        }
+        return undefined;
+    }
+
     #_height(node = this.#_root) {
         if (node == null) return -1;
 
@@ -240,38 +265,63 @@ export class Tree {
 
     height(value) {
         let node = this.#_search(this.#_root, value);
-        if (node){
+        if (node) {
             return this.#_height(node);
         }
         else
             return undefined;
     }
 
-    depth(value, node = undefined) {
-        if (node == undefined) node = this.#_root;
-        console.log("Here I am!");
+    #_shortHeight(node = this.#_root) {
+        if (node == null) return -1;
+        if (!node.left && !node.right) return 0; // leaf
 
+        // if one side is missing, must go the other way
+        if (!node.left) return this.#_shortHeight(node.right) + 1;
+        if (!node.right) return this.#_shortHeight(node.left) + 1;
 
+        let lh = this.#_shortHeight(node.left);
+        let rh = this.#_shortHeight(node.right);
+        return Math.min(lh, rh) + 1;
+    }
 
-        let n = node;
-        let depth = 0;
-
-        while(n != null){
-            if(value == n.data){
-                return depth;
-            }
-
-            if(value > n.data){
-                n = n.right;
-            }else if(value < n.data){
-                n = n.left;
-            }
-
-            if(n != null){
-                depth++;
-            }
+    shortHeight(value) {
+        let node = this.#_search(this.#_root, value);
+        if (node) {
+            return this.#_shortHeight(node);
         }
-        return undefined;
+        else
+            return undefined;
+    }
+
+    isBalanced (node = this.#_root) {
+        if (node == null) return true;
+
+        let lh = this.#_height(node.left);
+        let rh = this.#_height(node.right);
+        if(Math.abs(lh - rh) > 1) return false;
+
+        if(
+            !this.isBalanced(node.left) || 
+            !this.isBalanced(node.right)
+        ) return false;
+
+        return true;
+    }
+
+    #_addToArr = (val) => {
+        this.#_arr.push(val);
+        return val;
+    }
+
+    #_rebalance(node = this.#_root) {
+        this.#_arr = [];
+        this.levelOrderForEach(this.#_addToArr, node);
+        this.#_root = this.#_buildTree(this.#_arr);
+    }
+
+    rebalance() {
+        this.#_rebalance();
     }
 
     prettyPrint(node, prefix = '', isLeft = true) {

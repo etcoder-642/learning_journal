@@ -52,6 +52,17 @@ tree.prettyPrint(tree.root);
 console.log("Depth: 56");
 console.log(tree.depth(56));
 
-console.log("Height: 56");
-console.log(tree.height(56));
+console.log("Short Height: 14");
+console.log(tree.shortHeight(14));
 
+console.log("Height: 14");
+console.log(tree.height(14));
+
+console.log("\nisBalanced");
+console.log((tree.isBalanced()) ? "Balanced": "Not Balanced");
+
+
+tree.rebalance();
+tree.prettyPrint(tree.root);
+console.log("\nisBalanced");
+console.log((tree.isBalanced()) ? "Balanced": "Not Balanced");
