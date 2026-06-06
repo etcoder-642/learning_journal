@@ -1,0 +1,7 @@
+{
+    "name": "learn-ftxui",
+    "version": "0.0.1",
+    "dependencies": [
+        "ftxui"
+    ]
+}
