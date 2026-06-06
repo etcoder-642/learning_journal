@@ -1,0 +1,3 @@
+/home/mnasie/coding/js/learning_journal/learn_ftxui/build/CMakeFiles/main.dir
+/home/mnasie/coding/js/learning_journal/learn_ftxui/build/CMakeFiles/edit_cache.dir
+/home/mnasie/coding/js/learning_journal/learn_ftxui/build/CMakeFiles/rebuild_cache.dir
